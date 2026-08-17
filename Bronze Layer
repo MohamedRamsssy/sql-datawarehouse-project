@@ -1,0 +1,106 @@
+this script making a procedure for insert data from the source (crm and erp) as csv files 
+  first truncate then insert by bulk insert 
+  
+--
+create or alter procedure Bronze.load_bronze AS 
+
+BEGIN
+
+DECLARE @start_time DATETIME , @end_time DATETIME ;
+
+	BEGIN TRY
+ 
+		SET @start_time = getdate ();
+		TRUNCATE table Bronze.crm_cust_info 
+		BULK insert Bronze.crm_cust_info 
+			from 'E:\sql\project\sql-data-warehouse-project\datasets\source_crm\cust_info.csv'
+		with (
+			firstrow = 2 ,
+			fieldterminator = ',' ,
+			tablock 
+			);
+
+		SET @end_time = getdate ()
+			print '>> DURATION TIME = ' + CAST ( DATEDIFF (SECOND,@start_TIME,@end_TIME) as Nvarchar ) + ' SECONDS ' ;
+
+
+		SET @start_time = getdate ();
+		TRUNCATE table Bronze.crm_prd_info
+		Bulk insert Bronze.crm_prd_info
+			from 'E:\sql\project\sql-data-warehouse-project\datasets\source_crm\prd_info.csv'
+		with (
+			firstrow = 2,
+			fieldterminator = ',',
+			tablock 
+			);
+
+		SET @end_time = getdate ();
+		  print '>> DURATION TIME = ' + CAST ( DATEDIFF (SECOND,@start_TIME,@end_TIME) as Nvarchar ) + ' SECONDS ' ;
+
+
+		SET @start_time = getdate ();
+		TRUNCATE table Bronze.crm_sales_details 
+		Bulk insert Bronze.crm_sales_details 
+			from 'E:\sql\project\sql-data-warehouse-project\datasets\source_crm\sales_details.csv'
+		with (
+			firstrow = 2,
+			fieldterminator = ',',
+			tablock 
+					);
+
+        SET @end_time = getdate ();
+		  print '>> DURATION TIME = ' + CAST ( DATEDIFF (SECOND,@start_TIME,@end_TIME) as Nvarchar ) + ' SECONDS ' ;
+
+
+		    SET @start_time = getdate ();
+		TRUNCATE table Bronze.erp_CUST_AZ12
+		Bulk insert Bronze.erp_CUST_AZ12 
+			FROM 'E:\sql\project\sql-data-warehouse-project\datasets\source_erp\CUST_AZ12.csv'
+		with (
+			firstrow = 2,
+			fieldterminator = ',',
+			tablock 
+					);
+
+         SET @end_time = getdate ();
+		    print '>> DURATION TIME = ' + CAST ( DATEDIFF (SECOND,@start_TIME,@end_TIME) as Nvarchar ) + ' SECONDS ' ;
+
+		 SET @start_time = getdate ();
+		TRUNCATE table Bronze.erp_LOC_A101
+		Bulk insert Bronze.erp_LOC_A101
+			from 'E:\sql\project\sql-data-warehouse-project\datasets\source_erp\LOC_A101.csv'
+		with (
+			firstrow = 2,
+			fieldterminator = ',',
+			tablock 
+					);
+
+		 SET @end_time = getdate ();		
+		    print '>> DURATION TIME = ' + CAST ( DATEDIFF (SECOND,@start_TIME,@end_TIME) as Nvarchar ) + ' SECONDS ' ;
+
+		 SET @start_time = getdate ();
+		TRUNCATE table Bronze.erp_PX_CAT_G1V2 
+		Bulk insert Bronze.erp_PX_CAT_G1V2 
+			from 'E:\sql\project\sql-data-warehouse-project\datasets\source_erp\PX_CAT_G1V2.csv'
+		with (
+			firstrow = 2,
+			fieldterminator = ',',
+			tablock 
+					);
+
+	     SET @end_time = getdate ();
+		    print '>> DURATION TIME = ' + CAST ( DATEDIFF (SECOND,@start_TIME,@end_TIME) as Nvarchar ) + ' SECONDS ' ;
+
+	END TRY
+	BEGIN CATCH
+		print '=========================================='
+		print ' ERROR OCCURED DURING LOADING BRONZE LAYER '
+		print ' ERROR MESSAGE' + error_message () ;
+		print ' ERROR MESSAGE' + cast (error_number () AS Nvarchar );
+		print ' ERROR MESSAGE' + cast (error_state () AS Nvarchar );
+		print '=========================================='
+	END CATCH
+END
+	
+	
+			
