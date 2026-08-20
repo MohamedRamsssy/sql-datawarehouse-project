@@ -6,6 +6,7 @@
 This is my first end-to-end Data Engineering project, built out of pure passion for technology and data architecture. Coming from a non-traditional background, I wanted to step out of my comfort zone to understand how raw data is ingested, transformed, and structured into actionable business insights.
 
 ## 🏗️ Architecture & Data Modeling
+![Data Model Diagram](docs/data_model.png)
 This project strictly follows the **Medallion Architecture** to ensure data quality and scalability:
 *   **🥉 Bronze Layer:** Raw data ingestion.
 *   **🥈 Silver Layer:** Data cleansing, filtering, and joining.
