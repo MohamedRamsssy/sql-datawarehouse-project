@@ -87,7 +87,7 @@ BEGIN
 		FROM 'C:\sql\dwh_project\datasets\source_erp\loc_a101.csv'
 		WITH (
 			FIRSTROW = 2,
-			FIELDTERMINATOR = ',',
+			FIELDTERMINATOR = ',', 
 			TABLOCK
 		);
 		SET @end_time = GETDATE();
